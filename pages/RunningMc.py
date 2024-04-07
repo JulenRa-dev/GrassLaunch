@@ -4,6 +4,7 @@ import pages
 import os
 import datetime
 import uuid
+import grasslibs.getMcDir as mcd
 
 class RunningMc():
     def __init__(self, window=tk.CTk, version=str, accountInfo={}):
@@ -33,7 +34,7 @@ and i will try to fix it.
 - Dirtlaunch core error
 '''
             print(errorLog)
-            with open(os.path.join(os.environ["HOME"], ".minecraft", "grasslauncher", "logs", f"log-{datetime.datetime.now()}.txt"), "w") as f:
+            with open(os.path.join(mcd.getMcDir(), "grasslauncher", "logs", f"log-{datetime.datetime.now()}.txt"), "w") as f:
                 f.write(errorLog)
             for widget in self.window.winfo_children():
                 widget.destroy()

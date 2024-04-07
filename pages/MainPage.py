@@ -4,6 +4,8 @@ import os
 import json
 from pathlib import Path
 import grasslibs.accountsHandler as ach
+import grasslibs.getMcDir as mcd
+import grasslibs.buildInfo as buildInfo
 
 class MainPage():
     def __init__(self, window=tk.CTk, username="", version=""):
@@ -11,10 +13,10 @@ class MainPage():
         tk.CTkLabel(window, text="Account").pack()
         self.name = tk.StringVar()
         accounts = []
-        for i in os.listdir(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher", "accounts")):
-            if os.path.isfile(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher","accounts", i)):
+        for i in os.listdir(os.path.join(mcd.getMcDir(), "grasslauncher", "accounts")):
+            if os.path.isfile(os.path.join(mcd.getMcDir(), "grasslauncher","accounts", i)):
                 smthTemp = json.loads(
-                    Path(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher","accounts", i)).read_text()
+                    Path(os.path.join(mcd.getMcDir(), "grasslauncher","accounts", i)).read_text()
                 )
                 accounts.append(smthTemp["username"])
         if len(accounts) == 0:
@@ -26,8 +28,8 @@ class MainPage():
 
         tk.CTkLabel(window, text="Version").pack()
         versions = []
-        for i in os.listdir(os.path.join(os.getenv("HOME"), ".minecraft", "versions")):
-            if os.path.isdir(os.path.join(os.getenv("HOME"), ".minecraft", "versions", i)):
+        for i in os.listdir(os.path.join(mcd.getMcDir(), "versions")):
+            if os.path.isdir(os.path.join(mcd.getMcDir(), "versions", i)):
                 versions.append(i)
         self.version = tk.StringVar()
         self.version.set(versions[0])
@@ -35,9 +37,10 @@ class MainPage():
         self.window = window
 
         tk.CTkButton(window, text="Play!",command=self.runMc).pack()
+        tk.CTkLabel(window, text=buildInfo.getBuildSpecs()).pack()
 
     def runMc(self):
-        account = ach.loadAccount(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher", "accounts", f"{self.name.get()}_account.json"))
+        account = ach.loadAccount(os.path.join(mcd.getMcDir(), "grasslauncher", "accounts", f"{self.name.get()}_account.json"))
         version = self.version.get()
         for widget in self.window.winfo_children():
             widget.destroy()

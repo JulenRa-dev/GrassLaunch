@@ -3,6 +3,7 @@ import pages
 import grasslibs.makeGrassDir as mkgd
 import os
 import datetime
+import grasslibs.getMcDir as mcd
 
 def main():
     window = tk.CTk()
@@ -34,5 +35,5 @@ and i will try to fix it.
 - Grass Launch error
 '''
     print(errorLog)
-    with open(os.path.join(os.environ["HOME"], ".minecraft", "grasslauncher", "logs", f"log-{datetime.datetime.now()}.txt"), "w") as f:
+    with open(os.path.join(mcd.getMcDir(), "grasslauncher", "logs", f"log-{datetime.datetime.now()}.txt"), "w") as f:
         f.write(errorLog)

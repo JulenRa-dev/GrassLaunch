@@ -3,6 +3,7 @@ import pages
 import os
 import json
 from pathlib import Path
+import grasslibs.getMcDir as mcd
 
 class DeleteAccount():
     def __init__(self, window=tk.CTk):
@@ -10,10 +11,10 @@ class DeleteAccount():
         tk.CTkLabel(self.window, text="Select account to delete").pack()
         self.name = tk.StringVar()
         accounts = []
-        for i in os.listdir(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher", "accounts")):
-            if os.path.isfile(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher","accounts", i)):
+        for i in os.listdir(os.path.join(mcd.getMcDir(), "grasslauncher", "accounts")):
+            if os.path.isfile(os.path.join(mcd.getMcDir(), "grasslauncher","accounts", i)):
                 smthTemp = json.loads(
-                    Path(os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher","accounts", i)).read_text()
+                    Path(os.path.join(mcd.getMcDir(), "grasslauncher","accounts", i)).read_text()
                 )
                 accounts.append(smthTemp["username"])
         self.name.set("Select a account")
@@ -33,7 +34,7 @@ class DeleteAccount():
             self.delButton.configure(text=f"Press {3-self.deletionTimes} times to delete")
 
         if self.deletionTimes >= 3:
-            accountDir = os.path.join(os.getenv("HOME"), ".minecraft", "grasslauncher", "accounts", f"{self.name.get()}_account.json")
+            accountDir = os.path.join(mcd.getMcDir(), "grasslauncher", "accounts", f"{self.name.get()}_account.json")
             os.remove(accountDir)
             for widget in self.window.winfo_children():
                 widget.destroy()
