@@ -9,9 +9,15 @@ class CreateAccount():
         self.username = tk.CTkEntry(self.window, placeholder_text="Enter username...")
         self.username.pack()
         tk.CTkButton(self.window, text="Create", command=self.createAndExit).pack()
+        tk.CTkButton(self.window, text="Cancel", command=self.cancelCreation).pack()
 
     def createAndExit(self):
         ach.makeAccount(self.username.get())
+        for widget in self.window.winfo_children():
+            widget.destroy()
+        pages.MainPage(self.window)
+
+    def cancelCreation(self):
         for widget in self.window.winfo_children():
             widget.destroy()
         pages.MainPage(self.window)

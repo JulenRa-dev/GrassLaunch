@@ -22,7 +22,7 @@ class MainPage():
             accounts.append("Sample_Account")
         self.name.set(accounts[0])
         tk.CTkOptionMenu(window, values=accounts, variable=self.name).pack()
-        tk.CTkButton(window, text="Create account", command=self.createAccount).pack()
+        tk.CTkButton(window, text="Accounts", command=self.accountsSettings).pack()
 
         tk.CTkLabel(window, text="Version").pack()
         versions = []
@@ -44,7 +44,7 @@ class MainPage():
 
         pages.RunningMc(self.window, version, account)
 
-    def createAccount(self):
+    def accountsSettings(self):
         for widget in self.window.winfo_children():
             widget.destroy()
-        pages.CreateAccount(self.window)
+        pages.AccountsSettings(self.window)
