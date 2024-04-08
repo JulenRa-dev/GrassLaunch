@@ -6,10 +6,12 @@ from pathlib import Path
 import grasslibs.accountsHandler as ach
 import grasslibs.getMcDir as mcd
 import grasslibs.buildInfo as buildInfo
+import grasslibs.requestsSystem as rs
 
 class MainPage():
     def __init__(self, window=tk.CTk, username="", version=""):
         window.title("Grass Launch")
+        news = rs.getLatestNews()[:80]
         tk.CTkLabel(window, text="Account").pack()
         self.name = tk.StringVar()
         accounts = []
@@ -37,6 +39,9 @@ class MainPage():
         self.window = window
 
         tk.CTkButton(window, text="Play!",command=self.runMc).pack()
+        tk.CTkLabel(window, text="News:").pack()
+        tk.CTkLabel(window, text=news+"...").pack()
+        tk.CTkButton(window, text="Read more", command=self.seeNews).pack()
         tk.CTkLabel(window, text=buildInfo.getBuildSpecs()).pack()
 
     def runMc(self):
@@ -51,3 +56,8 @@ class MainPage():
         for widget in self.window.winfo_children():
             widget.destroy()
         pages.AccountsSettings(self.window)
+
+    def seeNews(self):
+        for widget in self.window.winfo_children():
+            widget.destroy()
+        pages.NewsPage(self.window)
